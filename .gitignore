@@ -1,3 +1,4 @@
 cli-with-curl
 *.dSYM/
 main_program
+*.mp3

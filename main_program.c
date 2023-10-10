@@ -1,19 +1,15 @@
 #include <curl/curl.h>
 #include <stdio.h>
 #include <stdlib.h>
-/*
- * TODO: see if instead of curl, I can use youtube-dl to grab the audio file in the format that whisper wants it.
- * I can use the "system()" to call the youtube-dl program on my computer. 
- * but then I need to wait() for the system line to finish, and then look for the .wav file in a certain directory
- * and then you use .wav file for my API request to OpenAI.
- * */
-
 
 // argc is the index of the arguments passed; && argv is an pointer/array of the arguments themselves
-int main(void) {
-   CURL *curl = curl_easy_init(); // pointer to the curl struct; servers as a handle for curl request
+int main(int argc, char *argv[]) {
 
-   if (!curl) {
+  char formattedString[100];
+  /**
+  CURL *curl = curl_easy_init(); // pointer to the curl struct; servers as a handle for curl request
+
+  if (!curl) {
     fprintf(stderr, "init failed\n");
     return EXIT_FAILURE;
   }
@@ -28,9 +24,16 @@ int main(void) {
   }
 
   curl_easy_cleanup(curl);
+  */
 
-  system("echo \"Hello World\"");
-  system("ls");
+  char *youtube_video = argv[1];
+
+  sprintf(formattedString, "youtube-dl --verbose --extract-audio --audio-format mp3 %s\n", youtube_video);
+
+  printf("trying to download audio file");
+
+  system(formattedString);
+
   return EXIT_SUCCESS;
 }
 /*

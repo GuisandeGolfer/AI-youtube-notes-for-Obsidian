@@ -13,14 +13,19 @@
 ## Current Progress
 
 - [x] Create Makefile
-- [x] learn how libcurl works with C
+- [x] learn how libcurl works with C.
 - [x] Realize that I probably need to run a "youtube-dl" process in my program to generate .wav file.
-- [x] Learn about "system()" functional call
-- [ ] run youtube-dl with my program based off inputs inside `argv[]`.
-- [ ] create a method that will download "youtube-dl" on a user's system; if it's not found.
-
-  - [ ] or just implement the same functionality with C, if not present on the user's system.
-
-- [ ] learn how to send the .wav file with OpenAI API token to Whisper and recieve the text output
+- [x] Realize that I could have probably down this faster with Python3.
+- [x] Learn about "system()" functional call.
+- [x] run youtube-dl with my program based off inputs inside `argv[]` and generate an mp3
+- [ ] learn how to send the .mp3 file with OpenAI API token to Whisper and recieve the text output.
 - [ ] send Whisper output and chat prompt to GPT-4 endpoint, and recieve output
 - [ ] save output to a file inside a specific directory inside my iCloud location for Obsidian.
+
+### Optimizations
+
+---
+
+- [ ] create a method that will download "youtube-dl" on a user's system; if it's not found.
+- [ ] or just implement the same functionality with C, if not present on the user's system.
+- [ ] make a do/while loop or something that can account for "HTTP: 403" errors or etc. until a successful connection.
