@@ -20,3 +20,25 @@
 
   curl_easy_cleanup(curl);
 ```
+
+```c
+// Libcurl implementation for "Content-Type: multipart/form-data"
+// which is needed for OpenAI whisper post request.
+ curl_mime *multipart = curl_mime_init(handle);
+ curl_mimepart *part = curl_mime_addpart(multipart);
+ curl_mime_name(part, "name");
+ curl_mime_data(part, "daniel", CURL_ZERO_TERMINATED);
+ part = curl_mime_addpart(multipart);
+ curl_mime_name(part, "project");
+ curl_mime_data(part, "curl", CURL_ZERO_TERMINATED);
+ part = curl_mime_addpart(multipart);
+ curl_mime_name(part, "logotype-image");
+ curl_mime_filedata(part, "curl.png");
+
+ /* Set the form info */
+ curl_easy_setopt(handle, CURLOPT_MIMEPOST, multipart);
+
+ curl_easy_perform(handle); /* post away! */
+
+ curl_mime_free(multipart); /* free the post data */
+```

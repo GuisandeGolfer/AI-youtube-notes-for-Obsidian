@@ -5,41 +5,66 @@
 // argc is the index of the arguments passed; && argv is an pointer/array of the arguments themselves
 int main(int argc, char *argv[]) {
 
-  char formattedString[100];
-  /**
-  CURL *curl = curl_easy_init(); // pointer to the curl struct; servers as a handle for curl request
+  const char openAI[] = "https://api.openai.com/v1/audio/transcriptions";
 
+  CURL *curl = curl_easy_init(); // pointer to the curl struct; servers as a handle for curl request
+  
   if (!curl) {
     fprintf(stderr, "init failed\n");
     return EXIT_FAILURE;
   }
 
-  // set options
-  curl_easy_setopt(curl, CURLOPT_URL, "https://www.youtube.com/watch?v=aAh1cwy7ICM");
+  curl_easy_setopt(curl, CURLOPT_URL, openAI);
+
+  struct curl_httppost *formpost = NULL, *lastptr = NULL;
+
+  const char *file_path = "./The right way to define a C function with no arguments-VsRs0H4hXEE.mp3";
+
+  FILE *file = fopen(file_path, "rb"); // Open the file in binary mode for reading
+  
+  if (file) {
+      // File exists and can be opened
+      fclose(file); // Close the file
+      // Now you can add it to your curl_formadd
+      curl_formadd(&formpost, &lastptr,
+                   CURLFORM_COPYNAME, "file",
+                   CURLFORM_FILE, file_path,
+                   CURLFORM_CONTENTTYPE, "audio/mpeg",
+                   CURLFORM_END);
+  } else {
+      // File does not exist or could not be opened
+      fprintf(stderr, "Failed to open file: %s\n", file_path);
+  }
+
+  curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
+
+  struct curl_slist *headers = NULL;
+  headers = curl_slist_append(headers, "Content-Type: multipart/form-data");
+
+  // set API token here
+  const char *api_token = "API_TOKEN";
+  char auth_header[100];
+  snprintf(auth_header, sizeof(auth_header), "Authorization: Bearer %s", api_token);
+  headers = curl_slist_append(headers, auth_header);
+
+  /* set custom headers */
+  curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+ 
   // perform action based off set options
   CURLcode result = curl_easy_perform(curl);
 
   if (result != CURLE_OK) {
    fprintf(stderr, "download error: %s\n", curl_easy_strerror(result));
+  } else {
+
+    printf("API results: %i\n", result);
+
   }
 
   curl_easy_cleanup(curl);
-  */
-
-  char *youtube_video = argv[1];
-
-  sprintf(formattedString, "youtube-dl --verbose --extract-audio --audio-format mp3 %s\n", youtube_video);
-
-  printf("trying to download audio file");
-
-  system(formattedString);
+  curl_formfree(formpost);
+  curl_slist_free_all(headers);
 
   return EXIT_SUCCESS;
-}
-/*
-  for (int i = 0; i < argc; i++) {
-    printf("arg %d - %s\n",i, argv[i]);
-  }
-  API: http://calapi.inadiutorium.cz/api/v0/en/calendars/general-en/2021/03
-  **/
 
+}

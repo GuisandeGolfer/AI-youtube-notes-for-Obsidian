@@ -18,7 +18,9 @@
 - [x] Realize that I could have probably down this faster with Python3.
 - [x] Learn about "system()" functional call.
 - [x] run youtube-dl with my program based off inputs inside `argv[]` and generate an mp3
-- [ ] learn how to send the .mp3 file with OpenAI API token to Whisper and recieve the text output.
+- [x] learn how to send the .mp3 file with OpenAI API token to Whisper and recieve the text output.
+- [ ] figure out how to set && load environment variables in C.
+- [ ] need to finish adding the remaining forms to the API Request: 1. mode=whisper-1, 2. response_format=text
 - [ ] send Whisper output and chat prompt to GPT-4 endpoint, and recieve output
 - [ ] save output to a file inside a specific directory inside my iCloud location for Obsidian.
 
@@ -29,3 +31,4 @@
 - [ ] create a method that will download "youtube-dl" on a user's system; if it's not found.
 - [ ] or just implement the same functionality with C, if not present on the user's system.
 - [ ] make a do/while loop or something that can account for "HTTP: 403" errors or etc. until a successful connection.
+- [ ] split the main() function up into separate functions or even files.
