@@ -4,3 +4,7 @@ main_program
 *.mp3
 .ENV
 .env
+download-yt
+mp3Print
+test_ls
+.DS_Store

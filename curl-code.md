@@ -1,5 +1,7 @@
 # Staging Area for libcurl implementation
 
+> keeping this code here for reference.
+
 ```c
 
   CURL *curl = curl_easy_init(); // pointer to the curl struct; servers as a handle for curl request

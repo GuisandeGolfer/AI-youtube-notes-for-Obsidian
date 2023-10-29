@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// argc is the index of the arguments passed; && argv is an pointer/array of the arguments themselves
+// argc is the index of the arguments passed; && argv is an array of char pointers to the arguments themselves.
 int main(int argc, char *argv[]) {
 
   const char openAI[] = "https://api.openai.com/v1/audio/transcriptions";
@@ -22,8 +22,8 @@ int main(int argc, char *argv[]) {
 
   FILE *file = fopen(file_path, "rb"); // Open the file in binary mode for reading
   
-  if (file) {
       // File exists and can be opened
+  if (file) {
       fclose(file); // Close the file
       // Now you can add it to your curl_formadd
       curl_formadd(&formpost, &lastptr,
@@ -34,6 +34,8 @@ int main(int argc, char *argv[]) {
   } else {
       // File does not exist or could not be opened
       fprintf(stderr, "Failed to open file: %s\n", file_path);
+      curl_easy_cleanup(curl);
+      curl_formfree(formpost);
   }
 
   curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
@@ -43,7 +45,7 @@ int main(int argc, char *argv[]) {
 
   // set API token here
   const char *api_token = "API_TOKEN";
-  char auth_header[100];
+  char auth_header[160];
   snprintf(auth_header, sizeof(auth_header), "Authorization: Bearer %s", api_token);
   headers = curl_slist_append(headers, auth_header);
 
